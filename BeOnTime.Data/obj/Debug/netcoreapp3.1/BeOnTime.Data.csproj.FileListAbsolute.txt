@@ -1,8 +1,0 @@
-F:\Misho\Programming\beontime\BeOnTime\BeOnTime.Data\obj\Debug\netcoreapp3.1\BeOnTime.Data.csprojAssemblyReference.cache
-F:\Misho\Programming\beontime\BeOnTime\BeOnTime.Data\obj\Debug\netcoreapp3.1\BeOnTime.Data.AssemblyInfoInputs.cache
-F:\Misho\Programming\beontime\BeOnTime\BeOnTime.Data\obj\Debug\netcoreapp3.1\BeOnTime.Data.AssemblyInfo.cs
-F:\Misho\Programming\beontime\BeOnTime\BeOnTime.Data\bin\Debug\netcoreapp3.1\BeOnTime.Data.deps.json
-F:\Misho\Programming\beontime\BeOnTime\BeOnTime.Data\bin\Debug\netcoreapp3.1\BeOnTime.Data.dll
-F:\Misho\Programming\beontime\BeOnTime\BeOnTime.Data\bin\Debug\netcoreapp3.1\BeOnTime.Data.pdb
-F:\Misho\Programming\beontime\BeOnTime\BeOnTime.Data\obj\Debug\netcoreapp3.1\BeOnTime.Data.dll
-F:\Misho\Programming\beontime\BeOnTime\BeOnTime.Data\obj\Debug\netcoreapp3.1\BeOnTime.Data.pdb
