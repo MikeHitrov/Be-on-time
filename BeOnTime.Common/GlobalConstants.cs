@@ -1,4 +1,4 @@
-﻿namespace BeOnTime.Common
+﻿namespace AspNetCoreTemplate.Common
 {
     public static class GlobalConstants
     {
