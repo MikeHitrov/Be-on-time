@@ -1,0 +1,36 @@
+﻿@using BeOnTime.Web.ViewModels.Meetings
+@model MeetingInputModel
+
+@{
+    this.ViewData["Title"] = "Add Meeting";
+    var users = ViewData["users"] as List<AspNetCoreTemplate.Data.Models.ApplicationUser>;
+}
+
+<h1 class="display-3">When will you visit us</h1>
+
+<form asp-controller="Periods" asp-action="Add" mtehod="post">
+    <div class="form-group">
+        <label for="meetingStart">Start of the meeting</label>
+        <input type="datetime-local" class="form-control" id="meetingStart" name="MeetingStart">
+    </div>
+    <div class="form-group">
+        <label for="meetingEnding">Date of departure</label>
+        <input type="datetime-local" class="form-control" id="meetingEnding" name="MeetingEnding">
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" name="Description">
+    </div>
+    <div>
+        <label for="users">Choose users, which will have to atend the meeting:</label>
+        <select id="users" multiple>
+            @foreach(var user in users){ 
+            <option value="@user.UserName">@user.UserName</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+@section Scripts{
+    <partial name="_ValidationsScriptsPartial" />
+}

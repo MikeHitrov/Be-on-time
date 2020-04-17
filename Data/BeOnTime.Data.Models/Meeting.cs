@@ -27,7 +27,7 @@
         public DateTime MeetingStartTime { get; set; }
 
         [Required]
-        public DateTime MeetingDuration { get; set; }
+        public DateTime MeetingEnding { get; set; }
 
         [Required]
         public string Description { get; set; }
