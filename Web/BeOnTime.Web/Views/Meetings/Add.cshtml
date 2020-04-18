@@ -3,7 +3,7 @@
 
 @{
     this.ViewData["Title"] = "Add Meeting";
-    var users = ViewData["users"] as List<AspNetCoreTemplate.Data.Models.ApplicationUser>;
+    var users = ViewBag.Users;
 }
 
 <h1 class="display-3">When will you visit us</h1>
@@ -31,6 +31,3 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-@section Scripts{
-    <partial name="_ValidationsScriptsPartial" />
-}

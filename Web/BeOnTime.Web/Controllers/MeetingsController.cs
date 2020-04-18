@@ -1,15 +1,11 @@
 ﻿namespace AspNetCoreTemplate.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AspNetCoreTemplate.Data.Common.Repositories;
     using AspNetCoreTemplate.Data.Models;
-    using AspNetCoreTemplate.Services.Data;
     using BeOnTime.Services.Data;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using BeOnTime.Web.ViewModels.Meetings;
 
     public class MeetingsController : BaseController
     {
@@ -25,8 +21,10 @@
         [Authorize]
         public IActionResult Add()
         {
-            var users = usersService.GetAll();
-            return View(users);
+            var users = this.usersService.GetAllUsers();
+            
+            ViewBag.Users = users;
+            return View();
         }
     }
 }

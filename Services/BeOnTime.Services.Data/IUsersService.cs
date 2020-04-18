@@ -5,6 +5,6 @@
 
     public interface IUsersService
     {
-        IEnumerable<ApplicationUser> GetAll();
+        IEnumerable<ApplicationUser> GetAllUsers();
     }
 }

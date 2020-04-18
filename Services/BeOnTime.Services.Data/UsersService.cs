@@ -2,7 +2,6 @@
 {
     using AspNetCoreTemplate.Data.Common.Repositories;
     using AspNetCoreTemplate.Data.Models;
-    using AspNetCoreTemplate.Services.Mapping;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -15,9 +14,9 @@
             this.usersRepository = usersRepository;
         }
 
-        public IEnumerable<ApplicationUser> GetAll()
+        public IEnumerable<ApplicationUser> GetAllUsers()
         {
-            return this.usersRepository.All().To<ApplicationUser>().ToList();
+            return this.usersRepository.All().ToList();
         }
     }
 }
