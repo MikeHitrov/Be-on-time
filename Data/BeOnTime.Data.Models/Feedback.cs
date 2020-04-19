@@ -5,12 +5,7 @@
 
     public class Feedback : BaseDeletableModel<string>
     {
-        public Feedback() {
-            this.Id = System.Guid.NewGuid().ToString();
-        }
-
-        [Key]
-        public string Id { get; set; }
+        public Feedback() {}
 
         public int UserId { get; set; }
 

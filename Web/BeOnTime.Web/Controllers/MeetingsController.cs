@@ -7,16 +7,18 @@
     using Microsoft.AspNetCore.Mvc;
     using BeOnTime.Web.ViewModels.Meetings;
     using System.Linq;
+    using System.Threading.Tasks;
+    using System;
 
     public class MeetingsController : BaseController
     {
         private readonly IUsersService usersService;
-        private readonly IDeletableEntityRepository<Meeting> repository;
+        private readonly IMeetingsService meetingsService;
 
-        public MeetingsController(IUsersService usersService, IDeletableEntityRepository<Meeting> repository)
+        public MeetingsController(IUsersService usersService, IMeetingsService meetingsService)
         {
             this.usersService = usersService;
-            this.repository = repository;
+            this.meetingsService = meetingsService;
         }
 
         [Authorize]
@@ -26,6 +28,27 @@
             
             ViewBag.Users = users;
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Add(MeetingInputModel inputModel)
+        {
+            DateTime dateNow = DateTime.UtcNow;
+            if ((!this.ModelState.IsValid)
+                || inputModel.MeetingStartTime < dateNow
+                || inputModel.MeetingEnding < dateNow
+                || inputModel.MeetingEnding > inputModel.MeetingStartTime
+                || inputModel.Description == ""
+                || !inputModel.users.Any())
+            {
+                return this.View(inputModel);
+            }
+
+            Console.WriteLine(inputModel.users);
+            //await this.meetingsService.AddAsync(inputModel.MeetingStartTime, inputModel.MeetingEnding, inputModel.Description, inputModel.users);
+
+            return this.Redirect("/");
         }
     }
 }

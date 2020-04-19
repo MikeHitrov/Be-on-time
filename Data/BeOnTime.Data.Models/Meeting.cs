@@ -9,13 +9,9 @@
     {
         public Meeting()
         {
-            this.Id = Guid.NewGuid().ToString();
             this.UserMeeting = new HashSet<UserMeeting>();
             this.Feedbacks = new HashSet<Feedback>();
         }
-
-        [Key]
-        public string Id { get; set; }
 
         public int OrganiserId { get; set; }
 
