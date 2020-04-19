@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using BeOnTime.Web.ViewModels.Meetings;
+    using System.Linq;
 
     public class MeetingsController : BaseController
     {
@@ -21,7 +22,7 @@
         [Authorize]
         public IActionResult Add()
         {
-            var users = this.usersService.GetAllUsers();
+            var users = this.usersService.GetAllUsers().Where(u => u.UserName != User.Identity.Name);
             
             ViewBag.Users = users;
             return View();
