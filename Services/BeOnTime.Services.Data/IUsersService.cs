@@ -6,5 +6,7 @@
     public interface IUsersService
     {
         IEnumerable<ApplicationUser> GetAllUsers();
+
+        ApplicationUser GetUserByUsername(string username);
     }
 }

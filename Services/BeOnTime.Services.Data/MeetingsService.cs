@@ -10,23 +10,42 @@
     public class MeetingsService : IMeetingsService
     {
         private readonly IDeletableEntityRepository<Meeting> meetingRepository;
+        private readonly IUsersService usersService;
 
-        public MeetingsService(IDeletableEntityRepository<Meeting> meetingRepository)
+        public MeetingsService(IDeletableEntityRepository<Meeting> meetingRepository, IUsersService usersService)
         {
             this.meetingRepository = meetingRepository;
+            this.usersService = usersService;
         }
-        public async Task<string> AddAsync(DateTime meetingStart, DateTime meetingEnd, string description, IEnumerable<string> users)
+
+        public async Task AddAsync(DateTime meetingStartTime, DateTime meetingEnding, string description, IEnumerable<string> users, string organiserUsername)
         {
             var meeting = new Meeting
             {
-                MeetingStartTime = meetingStart,
-                MeetingEnding = meetingEnd,
+                MeetingStartTime = meetingStartTime,
+                MeetingEnding = meetingEnding,
                 Description = description,
+                OrganiserId = usersService.GetUserByUsername(organiserUsername).Id,
+                Organiser = usersService.GetUserByUsername(organiserUsername)
             };
+
+            meeting.Id = Guid.NewGuid().ToString();
+
+            foreach (var user in users)
+            {
+                var userMeeting = new UserMeeting
+                {
+                    UserId = usersService.GetUserByUsername(user).Id,
+                    User = usersService.GetUserByUsername(user),
+                    MeetingId = meeting.Id,
+                    Meeting = meeting
+                };
+
+                meeting.UserMeeting.Add(userMeeting);
+            }
 
             await this.meetingRepository.AddAsync(meeting);
             await this.meetingRepository.SaveChangesAsync();
-            return meeting.Id;
         }
     }
 }

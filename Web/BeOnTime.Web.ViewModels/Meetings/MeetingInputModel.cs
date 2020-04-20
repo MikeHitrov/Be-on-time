@@ -19,6 +19,6 @@
         [Required]
         public string Description { get; set; }
 
-        public IEnumerable<ApplicationUser> users { get; set; }
+        public IEnumerable<string> Users { get; set; }
     }
 }

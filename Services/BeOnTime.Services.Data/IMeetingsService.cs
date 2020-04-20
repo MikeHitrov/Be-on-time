@@ -1,11 +1,12 @@
 ﻿namespace BeOnTime.Services.Data
 {
+    using AspNetCoreTemplate.Data.Models;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IMeetingsService
     {
-        Task<string> AddAsync(DateTime meetingStart, DateTime meetingEnd, string description, IEnumerable<string> users);
+        Task AddAsync(DateTime meetingStartTime, DateTime meetingEnding, string description, IEnumerable<string> users, string name);
     }
 }

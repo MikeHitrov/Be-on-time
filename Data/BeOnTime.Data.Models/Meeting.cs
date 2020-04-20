@@ -13,7 +13,7 @@
             this.Feedbacks = new HashSet<Feedback>();
         }
 
-        public int OrganiserId { get; set; }
+        public string OrganiserId { get; set; }
 
         public ApplicationUser Organiser { get; set; }
 

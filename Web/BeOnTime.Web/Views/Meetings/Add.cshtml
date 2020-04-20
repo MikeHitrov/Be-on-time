@@ -4,26 +4,27 @@
 @{
     this.ViewData["Title"] = "Add Meeting";
     var users = ViewBag.Users;
+    var data = ViewBag.Data;
 }
 
 <h1 class="display-3">Arange new meeting</h1>
 
-<form asp-controller="Periods" asp-action="Add" mtehod="post">
+<form asp-controller="Meetings" asp-action="Add" mtehod="post">
     <div class="form-group">
         <label for="meetingStart">Start of the meeting</label>
-        <input type="date" class="form-control" id="meetingStart" name="MeetingStart">
+        <input type="date" class="form-control" id="meetingStart" name="MeetingStartTime" value=@data.MeetingStartTime>
     </div>
     <div class="form-group">
         <label for="meetingEnding">Ending of the meeting</label>
-        <input type="date" class="form-control" id="meetingEnding" name="MeetingEnding">
+        <input type="date" class="form-control" id="meetingEnding" name="MeetingEnding" value=@data.MeetingEnding>
     </div>
     <div class="form-group">
         <label for="description">Description</label>
-        <input type="text" class="form-control" id="description" name="Description">
+        <input type="text" class="form-control" id="description" name="Description" value=@data.Description>
     </div>
     <div>
         <label for="users">Choose users, which will have to atend the meeting:</label>
-        <select id="users" multiple>
+        <select id="users" name="Users" multiple>
             @foreach (var user in users)
             {
                 <option value="@user.UserName">@user.UserName</option>

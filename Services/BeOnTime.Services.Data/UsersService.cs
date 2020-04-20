@@ -2,6 +2,7 @@
 {
     using AspNetCoreTemplate.Data.Common.Repositories;
     using AspNetCoreTemplate.Data.Models;
+    using AspNetCoreTemplate.Services.Mapping;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -17,6 +18,12 @@
         public IEnumerable<ApplicationUser> GetAllUsers()
         {
             return this.usersRepository.All().ToList();
+        }
+
+        public ApplicationUser GetUserByUsername(string username)
+        {
+
+            return this.usersRepository.All().Where(u => u.UserName == username).First();
         }
     }
 }

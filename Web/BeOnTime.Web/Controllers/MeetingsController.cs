@@ -25,8 +25,10 @@
         public IActionResult Add()
         {
             var users = this.usersService.GetAllUsers().Where(u => u.UserName != User.Identity.Name);
-            
+            var inputModel = new MeetingInputModel();
+
             ViewBag.Users = users;
+            ViewBag.Data = inputModel;
             return View();
         }
 
@@ -34,19 +36,19 @@
         [HttpPost]
         public async Task<IActionResult> Add(MeetingInputModel inputModel)
         {
-            DateTime dateNow = DateTime.UtcNow;
-            if ((!this.ModelState.IsValid)
-                || inputModel.MeetingStartTime < dateNow
+            DateTime dateNow = DateTime.UtcNow;   
+            if (inputModel.MeetingStartTime < dateNow
                 || inputModel.MeetingEnding < dateNow
-                || inputModel.MeetingEnding > inputModel.MeetingStartTime
-                || inputModel.Description == ""
-                || !inputModel.users.Any())
+                || inputModel.MeetingEnding < inputModel.MeetingStartTime
+                || !inputModel.Users.Any())
             {
+                ViewBag.Users = this.usersService.GetAllUsers().Where(u => u.UserName != User.Identity.Name);
+                ViewBag.Data = inputModel;
                 return this.View(inputModel);
             }
 
-            Console.WriteLine(inputModel.users);
-            //await this.meetingsService.AddAsync(inputModel.MeetingStartTime, inputModel.MeetingEnding, inputModel.Description, inputModel.users);
+            Console.WriteLine(inputModel);
+            await this.meetingsService.AddAsync(inputModel.MeetingStartTime, inputModel.MeetingEnding, inputModel.Description, inputModel.Users, (string)User.Identity.Name);
 
             return this.Redirect("/");
         }
