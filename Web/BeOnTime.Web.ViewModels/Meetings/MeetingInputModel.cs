@@ -13,8 +13,22 @@
         public DateTime MeetingStartTime { get; set; }
 
         [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan MeetingStartHour { get; set; }
+
+        [Required]
         [DataType(DataType.DateTime)]
         public DateTime MeetingEnding { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan MeetingEndHour { get; set; }
+
+        [Required]
+        public string Title { get; set; }
+
+        [Required]
+        public string Place { get; set; }
 
         [Required]
         public string Description { get; set; }

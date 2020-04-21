@@ -22,13 +22,18 @@
             this.usersService = usersService;
         }
 
-        public async Task AddAsync(DateTime meetingStartTime, DateTime meetingEnding, string description, IEnumerable<string> users, string organiserUsername)
+        public async Task AddAsync(DateTime meetingStartTime, TimeSpan meetingStartHour, DateTime meetingEnding, TimeSpan meetingEndHour, string title, string description, string place, IEnumerable<string> users, string organiserUsername)
         {
+            DateTime startTime = new DateTime(meetingStartTime.Year, meetingStartTime.Month, meetingStartTime.Day, meetingStartHour.Hours, meetingStartHour.Minutes, meetingStartHour.Seconds);
+            DateTime endTime = new DateTime(meetingEnding.Year, meetingEnding.Month, meetingEnding.Day, meetingEndHour.Hours, meetingEndHour.Minutes, meetingEndHour.Seconds);
+
             var meeting = new Meeting
             {
-                MeetingStartTime = meetingStartTime,
-                MeetingEnding = meetingEnding,
+                MeetingStartTime = startTime,
+                MeetingEnding = endTime,
+                Title = title,
                 Description = description,
+                Place = place,
                 OrganiserId = usersService.GetUserByUsername(organiserUsername).Id,
                 Organiser = usersService.GetUserByUsername(organiserUsername)
             };
@@ -69,11 +74,13 @@
 
                 list.Add(new MeetingsViewModel
                 {
-                    OrganiserId = userMeeeting.UserId,
-                    Organiser = userMeeeting.User,
+                    OrganiserId = meeting.OrganiserId,
+                    Organiser = usersService.GetUserById(meeting.OrganiserId),
                     MeetingStartTime = meeting.MeetingStartTime,
                     MeetingEnding = meeting.MeetingEnding,
+                    Title = meeting.Title,
                     Description = meeting.Description,
+                    Place = meeting.Place,
                     Feedbacks = meeting.Feedbacks,
                     CreatedOn = meeting.CreatedOn
                 });

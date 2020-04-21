@@ -21,9 +21,13 @@
         }
 
         public ApplicationUser GetUserByUsername(string username)
-        {
-
+        { 
             return this.usersRepository.All().Where(u => u.UserName == username).First();
+        }
+
+        public ApplicationUser GetUserById(string id)
+        {
+            return this.usersRepository.All().Where(u => u.Id == id).FirstOrDefault();
         }
     }
 }

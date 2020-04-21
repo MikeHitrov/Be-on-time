@@ -8,5 +8,7 @@
         IEnumerable<ApplicationUser> GetAllUsers();
 
         ApplicationUser GetUserByUsername(string username);
+
+        ApplicationUser GetUserById(string id);
     }
 }

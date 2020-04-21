@@ -8,7 +8,7 @@
 
     public interface IMeetingsService
     {
-        Task AddAsync(DateTime meetingStartTime, DateTime meetingEnding, string description, IEnumerable<string> users, string name);
+        Task AddAsync(DateTime meetingStartTime, TimeSpan meetingStartHour, DateTime meetingEnding, TimeSpan meetingEndHour, string title, string description, string place, IEnumerable<string> users, string organiserUsername);
 
         IEnumerable<MeetingsViewModel> GetUserMeetings(string id);
 

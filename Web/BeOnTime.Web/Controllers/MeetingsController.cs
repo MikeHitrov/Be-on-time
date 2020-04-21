@@ -47,8 +47,10 @@
                 return this.View(inputModel);
             }
 
-            Console.WriteLine(inputModel);
-            await this.meetingsService.AddAsync(inputModel.MeetingStartTime, inputModel.MeetingEnding, inputModel.Description, inputModel.Users, (string)User.Identity.Name);
+            var users = inputModel.Users.ToList();
+            users.Add(User.Identity.Name);
+
+            await this.meetingsService.AddAsync(inputModel.MeetingStartTime, inputModel.MeetingStartHour, inputModel.MeetingEnding, inputModel.MeetingEndHour, inputModel.Title, inputModel.Description, inputModel.Place, users, (string)User.Identity.Name);
 
             return this.Redirect("/");
         }

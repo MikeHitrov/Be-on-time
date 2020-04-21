@@ -28,6 +28,12 @@
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        public string Place { get; set; }
+
+        [Required]
+        public string Title { get; set; }
+
         public ICollection<Feedback> Feedbacks { get; set; }
     }
 }
