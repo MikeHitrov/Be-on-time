@@ -1,0 +1,28 @@
+﻿@using BeOnTime.Web.ViewModels.Meetings
+@model UserMeetingsViewModel
+
+@{
+    ViewData["Title"] = "Your Meetings";
+}
+
+<h1 class="display-3">@this.ViewData["Title"]</h1>
+
+@foreach (var meeting in Model.Meetings.OrderByDescending(x => x.CreatedOn))
+{
+    <div class="card" style="width: 72rem;">
+        <div class="alert alert-info">
+            From -> @meeting.CreatedOn.ToString("dd/MM/yyyy")
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Organiser -> @meeting.Organiser.UserName</li>
+            <li class="list-group-item">Start time -> @meeting.MeetingStartTime</li>
+            <li class="list-group-item">End time -> @meeting.MeetingEnding</li>
+            <li class="list-group-item">Description -> @meeting.Description</li>
+            @foreach (var feedback in meeting.Feedbacks)
+            {
+                <li class="list-group-item">Feedback -> @feedback.Description</li>
+            }
+        </ul>
+    </div>
+    <p> </p>
+}

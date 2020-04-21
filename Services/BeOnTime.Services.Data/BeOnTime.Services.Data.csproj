@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\BeOnTime.Data.Common\BeOnTime.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\BeOnTime.Data.Models\BeOnTime.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\BeOnTime.Web.ViewModels\BeOnTime.Web.ViewModels.csproj" />
     <ProjectReference Include="..\BeOnTime.Services.Mapping\BeOnTime.Services.Mapping.csproj" />
   </ItemGroup>
 

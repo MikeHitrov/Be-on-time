@@ -52,5 +52,17 @@
 
             return this.Redirect("/");
         }
+
+        [Authorize]
+        public async Task<IActionResult> GetUserMeetings()
+        {
+            var user = this.usersService.GetUserByUsername(this.User.Identity.Name);
+
+            var meetings = this.meetingsService.GetUserMeetings(user.Id);
+
+            UserMeetingsViewModel viewModel = new UserMeetingsViewModel(meetings);
+
+            return this.View(viewModel);
+        }
     }
 }
