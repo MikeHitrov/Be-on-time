@@ -125,5 +125,15 @@
 
             return this.Redirect("/");
         }
+
+        [Authorize]
+        public IActionResult Delete(string id)
+        {
+            var meeting = this.meetingsService.GetMeetingById(id);
+
+            this.meetingsService.Delete(id);
+
+            return this.Redirect("/");
+        }
     }
 }

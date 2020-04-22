@@ -6,7 +6,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     public class MeetingsService : IMeetingsService
@@ -34,8 +33,8 @@
                 Title = title,
                 Description = description,
                 Place = place,
-                OrganiserId = usersService.GetUserByUsername(organiserUsername).Id,
-                Organiser = usersService.GetUserByUsername(organiserUsername)
+                OrganiserId = this.usersService.GetUserByUsername(organiserUsername).Id,
+                Organiser = this.usersService.GetUserByUsername(organiserUsername),
             };
 
             meeting.Id = Guid.NewGuid().ToString();
@@ -44,10 +43,10 @@
             {
                 var userMeeting = new UserMeeting
                 {
-                    UserId = usersService.GetUserByUsername(user).Id,
-                    User = usersService.GetUserByUsername(user),
+                    UserId = this.usersService.GetUserByUsername(user).Id,
+                    User = this.usersService.GetUserByUsername(user),
                     MeetingId = meeting.Id,
-                    Meeting = meeting
+                    Meeting = meeting,
                 };
 
                 meeting.UserMeeting.Add(userMeeting);
@@ -59,31 +58,31 @@
 
         public Meeting GetMeetingById(string Id)
         {
-            return meetingRepository.All().Where(m => m.Id == Id).FirstOrDefault();
+            return this.meetingRepository.All().Where(m => m.Id == Id).FirstOrDefault();
         }
 
         public IEnumerable<MeetingsViewModel> GetUserMeetings(string id)
         {
             var list = new List<MeetingsViewModel>();
 
-            var meetings = userMeetingRepository.All().Where(m => m.UserId == id).ToList();
+            var meetings = this.userMeetingRepository.All().Where(m => m.UserId == id).ToList();
 
             foreach (var userMeeeting in meetings)
             {
-                var meeting = GetMeetingById(userMeeeting.MeetingId);
+                var meeting = this.GetMeetingById(userMeeeting.MeetingId);
 
                 list.Add(new MeetingsViewModel
                 {
                     Id = meeting.Id,
                     OrganiserId = meeting.OrganiserId,
-                    Organiser = usersService.GetUserById(meeting.OrganiserId),
+                    Organiser = this.usersService.GetUserById(meeting.OrganiserId),
                     MeetingStartTime = meeting.MeetingStartTime,
                     MeetingEnding = meeting.MeetingEnding,
                     Title = meeting.Title,
                     Description = meeting.Description,
                     Place = meeting.Place,
                     Feedbacks = meeting.Feedbacks,
-                    CreatedOn = meeting.CreatedOn
+                    CreatedOn = meeting.CreatedOn,
                 });
             }
 
@@ -94,7 +93,7 @@
             DateTime startTime = new DateTime(meetingStartTime.Year, meetingStartTime.Month, meetingStartTime.Day, meetingStartHour.Hours, meetingStartHour.Minutes, meetingStartHour.Seconds);
             DateTime endTime = new DateTime(meetingEnding.Year, meetingEnding.Month, meetingEnding.Day, meetingEndHour.Hours, meetingEndHour.Minutes, meetingEndHour.Seconds);
 
-            var meeting = GetMeetingById(id);
+            var meeting = this.GetMeetingById(id);
 
             meeting.MeetingStartTime = startTime;
             meeting.MeetingEnding = endTime;
@@ -102,8 +101,24 @@
             meeting.Description = description;
             meeting.Place = place;
 
-            meetingRepository.Update(meeting);
+            this.meetingRepository.Update(meeting);
             await this.meetingRepository.SaveChangesAsync();
+        }
+
+        public void Delete(string id)
+        {
+            Meeting meeting = this.GetMeetingById(id);
+            var userMeetings = this.userMeetingRepository.All().Where(m => m.MeetingId == id).ToList();
+
+            this.meetingRepository.Delete(meeting);
+            
+            foreach (var userMeeting in userMeetings)
+            {
+                this.userMeetingRepository.Delete(userMeeting);
+            }
+
+            this.userMeetingRepository.SaveChangesAsync();
+            this.meetingRepository.SaveChangesAsync();
         }
     }
 }
