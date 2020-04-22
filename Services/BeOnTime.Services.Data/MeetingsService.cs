@@ -99,7 +99,14 @@
 
             foreach (var meeting in meetings)
             {
-                users.Add(meeting.User.UserName);
+                var user = usersService.GetUserById(meeting.UserId).UserName;
+                var organiserId = GetMeetingById(meeting.MeetingId).OrganiserId;
+                var organiserUser = usersService.GetUserById(organiserId).UserName;
+
+                if (user != organiserUser)
+                {
+                    users.Add(user);
+                }
             }
 
             return users;

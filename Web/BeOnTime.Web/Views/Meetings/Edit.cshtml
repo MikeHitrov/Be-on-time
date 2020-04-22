@@ -1,0 +1,49 @@
+﻿@using BeOnTime.Web.ViewModels.Meetings
+@model MeetingInputModel
+
+@{
+    this.ViewData["Title"] = "Edit Meeting";
+    var users = ViewBag.Users;
+    var data = ViewBag.Data;
+}
+
+<form asp-controller="Meetings" asp-action="Edit" mtehod="post">
+    <div class="form-group">
+        <label for="meetingStart">Date of the meeting</label>
+        <input type="date" class="form-control" id="meetingStart" name="MeetingStartTime" value=@data.MeetingStartTime>
+    </div>
+    <div class="form-group">
+        <label for="meetingStartHour">Start hour of the meeting</label>
+        <input type="time" class="form-control" id="meetingStartHour" name="MeetingStartHour" value=@data.MeetingStartHour>
+    </div>
+    <div class="form-group">
+        <label for="meetingEnding">End date of the meeting</label>
+        <input type="date" class="form-control" id="meetingEnding" name="MeetingEnding" value=@data.MeetingEnding>
+    </div>
+    <div class="form-group">
+        <label for="meetingEndHour">End hour of the meeting</label>
+        <input type="time" class="form-control" id="meetingEndHour" name="MeetingEndHour" value=@data.MeetingEndHour>
+    </div>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" name="Title" value=@data.Title>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" name="Description" value=@data.Description>
+    </div>
+    <div class="form-group">
+        <label for="place">Place</label>
+        <input type="text" class="form-control" id="place" name="Place" value=@data.Place>
+    </div>
+    <div>
+        <label for="users">Choose users, which will have to atend the meeting:</label>
+        <select id="users" name="Users" multiple>
+            @foreach (var user in users)
+            {
+                <option value="@user">@user</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+</form>
