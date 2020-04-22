@@ -9,6 +9,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System;
+    using System.Collections.Generic;
 
     public class MeetingsController : BaseController
     {
@@ -65,6 +66,34 @@
             UserMeetingsViewModel viewModel = new UserMeetingsViewModel(meetings);
 
             return this.View(viewModel);
+        }
+
+        [Authorize]
+        public IActionResult Edit(string id)
+        {
+            var meeting = this.meetingsService.GetMeetingById(id);
+            IEnumerable<string> users = meetingsService.GetUsers(id);
+
+            var startTime = new DateTime(meeting.MeetingStartTime.Year, meeting.MeetingStartTime.Month, meeting.MeetingStartTime.Day);
+            var startHour = new TimeSpan(meeting.MeetingStartTime.Hour, meeting.MeetingStartTime.Minute, meeting.MeetingStartTime.Second);
+            var endTime = new DateTime(meeting.MeetingEnding.Year, meeting.MeetingEnding.Month, meeting.MeetingEnding.Day);
+            var endHour = new TimeSpan(meeting.MeetingEnding.Hour, meeting.MeetingEnding.Minute, meeting.MeetingEnding.Second);
+
+            var inputModel = new MeetingInputModel
+            { 
+                Users = users,
+                MeetingStartTime = startTime,
+                MeetingStartHour = startHour,
+                MeetingEnding = endTime,
+                MeetingEndHour = endHour,
+                Title = meeting.Title,
+                Description = meeting.Description,
+                Place = meeting.Place,
+            };
+
+            ViewBag.Users = users;
+            ViewBag.Data = inputModel;
+            return View();
         }
     }
 }

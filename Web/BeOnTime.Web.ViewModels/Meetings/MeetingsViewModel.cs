@@ -12,6 +12,8 @@
             this.Feedbacks = new HashSet<Feedback>();
         }
 
+        public string Id { get; set; }
+
         public string OrganiserId { get; set; }
 
         public ApplicationUser Organiser { get; set; }

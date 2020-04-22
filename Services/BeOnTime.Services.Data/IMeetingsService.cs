@@ -12,6 +12,8 @@
 
         IEnumerable<MeetingsViewModel> GetUserMeetings(string id);
 
-        Meeting GetMeetingById(string Id);
+        Meeting GetMeetingById(string id);
+
+        IEnumerable<string> GetUsers(string id);
     }
 }

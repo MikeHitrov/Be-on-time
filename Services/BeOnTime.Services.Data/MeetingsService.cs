@@ -74,6 +74,7 @@
 
                 list.Add(new MeetingsViewModel
                 {
+                    Id = meeting.Id,
                     OrganiserId = meeting.OrganiserId,
                     Organiser = usersService.GetUserById(meeting.OrganiserId),
                     MeetingStartTime = meeting.MeetingStartTime,
@@ -89,5 +90,19 @@
             return list;
         }
 
+        public IEnumerable<string> GetUsers(string id)
+        {
+            List<string> users = new List<string>();
+
+
+            var meetings = userMeetingRepository.All().Where(m => m.MeetingId == id).ToList();
+
+            foreach (var meeting in meetings)
+            {
+                users.Add(meeting.User.UserName);
+            }
+
+            return users;
+        }
     }
 }

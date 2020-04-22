@@ -20,23 +20,30 @@
             <li class="list-group-item">End time -> @meeting.MeetingEnding</li>
             <li class="list-group-item">Description -> @meeting.Description</li>
             <li class="list-group-item">Place -> @meeting.Place</li>
-            <li class="list-group-item">Status -> 
-            @if (timeNow > meeting.MeetingEnding)
-            {
-                <span>Over</span>
-            }
-            else if (timeNow > meeting.MeetingStartTime && timeNow < meeting.MeetingEnding)
-            {
-                <span>Ongiong</span>
-            }
-            else
-            {
-                <span>Upcoming</span>
-            }</li>
+            <li class="list-group-item">
+                Status ->
+                @if (timeNow > meeting.MeetingEnding)
+                {
+                    <span>Over</span>
+                }
+                else if (timeNow > meeting.MeetingStartTime && timeNow < meeting.MeetingEnding)
+                {
+                    <span>Ongiong</span>
+                }
+                else
+                {
+                    <span>Upcoming</span>
+                }
+            </li>
 
             @foreach (var feedback in meeting.Feedbacks)
             {
                 <li class="list-group-item">Feedback -> @feedback.Description</li>
+            }
+            @if (meeting.Organiser.UserName == User.Identity.Name)
+            {
+                <button>@Html.ActionLink("Edit", "Edit", new { id = meeting.Id })</button>
+                <button>@Html.ActionLink("Delete", "Delete", new { id = meeting.Id })</button> 
             }
         </ul>
     </div>
