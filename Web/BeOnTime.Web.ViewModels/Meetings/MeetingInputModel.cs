@@ -9,6 +9,9 @@
     public class MeetingInputModel : IMapTo<Meeting>
     {
         [Required]
+        public string Id { get; set; }
+
+        [Required]
         [DataType(DataType.DateTime)]
         public DateTime MeetingStartTime { get; set; }
 

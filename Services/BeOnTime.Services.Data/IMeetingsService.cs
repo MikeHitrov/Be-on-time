@@ -14,6 +14,6 @@
 
         Meeting GetMeetingById(string id);
 
-        IEnumerable<string> GetUsers(string id);
+        Task UpdateAsync(DateTime meetingStartTime, TimeSpan meetingStartHour, DateTime meetingEnding, TimeSpan meetingEndHour, string title, string description, string place, string id);
     }
 }

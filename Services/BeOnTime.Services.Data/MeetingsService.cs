@@ -89,27 +89,21 @@
 
             return list;
         }
-
-        public IEnumerable<string> GetUsers(string id)
+        public async Task UpdateAsync(DateTime meetingStartTime, TimeSpan meetingStartHour, DateTime meetingEnding, TimeSpan meetingEndHour, string title, string description, string place, string id)
         {
-            List<string> users = new List<string>();
+            DateTime startTime = new DateTime(meetingStartTime.Year, meetingStartTime.Month, meetingStartTime.Day, meetingStartHour.Hours, meetingStartHour.Minutes, meetingStartHour.Seconds);
+            DateTime endTime = new DateTime(meetingEnding.Year, meetingEnding.Month, meetingEnding.Day, meetingEndHour.Hours, meetingEndHour.Minutes, meetingEndHour.Seconds);
 
+            var meeting = GetMeetingById(id);
 
-            var meetings = userMeetingRepository.All().Where(m => m.MeetingId == id).ToList();
+            meeting.MeetingStartTime = startTime;
+            meeting.MeetingEnding = endTime;
+            meeting.Title = title;
+            meeting.Description = description;
+            meeting.Place = place;
 
-            foreach (var meeting in meetings)
-            {
-                var user = usersService.GetUserById(meeting.UserId).UserName;
-                var organiserId = GetMeetingById(meeting.MeetingId).OrganiserId;
-                var organiserUser = usersService.GetUserById(organiserId).UserName;
-
-                if (user != organiserUser)
-                {
-                    users.Add(user);
-                }
-            }
-
-            return users;
+            meetingRepository.Update(meeting);
+            await this.meetingRepository.SaveChangesAsync();
         }
     }
 }
