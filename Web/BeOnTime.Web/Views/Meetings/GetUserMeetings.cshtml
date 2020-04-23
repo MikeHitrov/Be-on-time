@@ -39,8 +39,7 @@
 
                 @if (meeting.Organiser.UserName == User.Identity.Name)
                 {
-                    <li class="list-group-item"><button>@Html.ActionLink("Edit", "Edit", new { id = meeting.Id })</button></li>
-                    <li class="list-group-item"><button>@Html.ActionLink("Delete", "Delete", new { id = meeting.Id })</button></li>
+                    <li class="list-group-item"><button>@Html.ActionLink("Edit", "Edit", new { id = meeting.Id })</button><button>@Html.ActionLink("Delete", "Delete", new { id = meeting.Id })</button></li>
                 }
             </ul>
         </div>
