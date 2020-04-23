@@ -25,15 +25,15 @@
                     Status ->
                     @if (timeNow > meeting.MeetingEnding)
                     {
-                        <span>Over</span>
+                        <span>Meeting is Over</span>
                     }
                     else if (timeNow > meeting.MeetingStartTime && timeNow < meeting.MeetingEnding)
                     {
-                        <span>Ongiong</span>
+                        <span>Ongiong meeting</span>
                     }
                     else
                     {
-                        <span>Upcoming</span>
+                        <span>Upcoming meeting</span>
                     }
                 </li>
 
