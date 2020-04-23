@@ -123,7 +123,13 @@
 
         public List<Meeting> GetAllOverMeetingsForUser(string id)
         {
-            var userMeetings = this.userMeetingRepository.All().Where(um => um.UserId == id).ToList();
+            var userMeetings = this.userMeetingRepository
+                .All()
+                .Where(um => um.UserId == id)
+                .Where(um => um.Meeting.MeetingEnding > um.Meeting.MeetingStartTime)
+                .Where(um => um.Meeting.IsDeleted == false)
+                .ToList();
+
             var meetings = new List<Meeting>();
 
             foreach (var meeting in userMeetings)

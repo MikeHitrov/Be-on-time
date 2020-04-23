@@ -117,7 +117,7 @@
         [HttpPost]
         public async Task<IActionResult> Edit(FeedbackInputModel inputModel)
         {
-            this.feedbackService.Update(inputModel.Rating, inputModel.Description, inputModel.Id);
+            await this.feedbackService.Update(inputModel.Rating, inputModel.Description, inputModel.Id);
 
             return this.Redirect("/Feedbacks/GetUserFeedbacks");
         }
@@ -127,7 +127,7 @@
         {
             var feedback = this.feedbackService.GetFeedbackById(id);
 
-            this.feedbackService.Delete(feedback);
+            await this.feedbackService.Delete(feedback);
 
             return this.Redirect("/Feedbacks/GetUserFeedbacks");
         }
