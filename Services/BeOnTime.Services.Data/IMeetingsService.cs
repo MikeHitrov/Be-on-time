@@ -17,5 +17,7 @@
         Task UpdateAsync(DateTime meetingStartTime, TimeSpan meetingStartHour, DateTime meetingEnding, TimeSpan meetingEndHour, string title, string description, string place, string id);
 
         void Delete(string id);
+
+        List<Meeting> GetAllOverMeetingsForUser(string id);
     }
 }

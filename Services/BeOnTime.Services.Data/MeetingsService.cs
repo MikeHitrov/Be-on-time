@@ -120,5 +120,18 @@
             this.userMeetingRepository.SaveChangesAsync();
             this.meetingRepository.SaveChangesAsync();
         }
+
+        public List<Meeting> GetAllOverMeetingsForUser(string id)
+        {
+            var userMeetings = this.userMeetingRepository.All().Where(um => um.UserId == id).ToList();
+            var meetings = new List<Meeting>();
+
+            foreach (var meeting in userMeetings)
+            {
+                meetings.Add(this.GetMeetingById(meeting.MeetingId));
+            }
+
+            return meetings;
+        }
     }
 }

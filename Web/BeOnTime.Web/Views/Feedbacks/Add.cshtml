@@ -1,0 +1,37 @@
+﻿@using BeOnTime.Web.ViewModels.Feedbacks
+@model FeedbackInputModel
+
+@{
+    this.ViewData["Title"] = "Add Feedback";
+    var meetings = ViewBag.Meetings;
+    var data = ViewBag.Data;
+}
+
+<h1 class="display-3">Add new feedback</h1>
+@if (meetings.Count > 0)
+{
+<form asp-controller="Feedbacks" asp-action="Add" mtehod="post">
+    <div class="form-group">
+        <label for="Rating">Rating (Scale 1 to 6)</label>
+        <input type="range" class="form-control" min="1" max="6" id="rating" name="Rating" value=@data.Rating>
+    </div>
+    <div class="form-group">
+        <label for="description">Comment</label>
+        <input type="text" class="form-control" id="description" name="Description" value=@data.Description>
+    </div>
+    <div>
+        <label for="users">Choose users, which will have to atend the meeting:</label>
+        <select id="users" name="Users">
+            @foreach (var meeting in meetings)
+            {
+                <option value="@meeting.Title">@meeting.Title</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+}else{
+    <h1>
+        You have no meetings that have finished.
+    </h1>    
+}
