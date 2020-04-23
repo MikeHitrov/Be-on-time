@@ -123,7 +123,7 @@
 
             await this.meetingsService.UpdateAsync(inputModel.MeetingStartTime, inputModel.MeetingStartHour, inputModel.MeetingEnding, inputModel.MeetingEndHour, inputModel.Title, inputModel.Description, inputModel.Place, inputModel.Id);
 
-            return this.Redirect("/");
+            return this.Redirect("/Meetings/GetUserMeetings");
         }
 
         [Authorize]
@@ -133,7 +133,7 @@
 
             this.meetingsService.Delete(id);
 
-            return this.Redirect("/");
+            return this.Redirect("/Meetings/GetUserMeetings");
         }
     }
 }

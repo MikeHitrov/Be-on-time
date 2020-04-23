@@ -35,14 +35,36 @@
             await this.feedbackRepository.SaveChangesAsync();
         }
 
+        public async Task Delete(Feedback feedback)
+        {
+            this.feedbackRepository.Delete(feedback);
+            await this.feedbackRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<Feedback> GetAllFeedbacks()
         {
             return this.feedbackRepository.All().ToList();
         }
 
+        public Feedback GetFeedbackById(string id)
+        {
+            return this.feedbackRepository.All().Where(f => f.Id == id).First();
+        }
+
         public IEnumerable<Feedback> GetUserFeedbacks(string userId)
         {
             return this.feedbackRepository.All().Where(f => f.UserId == userId).ToList();
+        }
+
+        public async Task Update(int rating, string description, string id)
+        {
+            var feedback = this.GetFeedbackById(id);
+
+            feedback.Rating = rating;
+            feedback.Description = description;
+
+            this.feedbackRepository.Update(feedback);
+            await this.feedbackRepository.SaveChangesAsync();
         }
     }
 }

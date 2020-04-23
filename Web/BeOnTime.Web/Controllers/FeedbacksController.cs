@@ -25,8 +25,8 @@
         public IActionResult Add()
         {
             var inputModel = new FeedbackInputModel();
-            var user = usersService.GetUserByUsername(User.Identity.Name);
-            var meetings = meetingsService.GetAllOverMeetingsForUser(user.Id);
+            var user = this.usersService.GetUserByUsername(User.Identity.Name);
+            var meetings = this.meetingsService.GetAllOverMeetingsForUser(user.Id);
 
             ViewBag.Data = inputModel;
             ViewBag.Meetings = meetings;
@@ -90,6 +90,46 @@
             }
 
             return View(viewModel);
+        }
+
+        [Authorize]
+        public IActionResult Edit(string id)
+        {
+            var user = this.usersService.GetUserByUsername(User.Identity.Name);
+            var feedback = this.feedbackService.GetFeedbackById(id);
+            var meetings = this.meetingsService.GetAllOverMeetingsForUser(user.Id);
+
+
+            var inputModel = new FeedbackInputModel
+            {
+                Id = id,
+                Rating = feedback.Rating,
+                Description = feedback.Description,
+                MeetingTitle = this.meetingsService.GetMeetingById(feedback.MeetingId).Title,
+            };
+
+            ViewBag.Data = inputModel;
+            ViewBag.Meetings = meetings;
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(FeedbackInputModel inputModel)
+        {
+            this.feedbackService.Update(inputModel.Rating, inputModel.Description, inputModel.Id);
+
+            return this.Redirect("/Feedbacks/GetUserFeedbacks");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var feedback = this.feedbackService.GetFeedbackById(id);
+
+            this.feedbackService.Delete(feedback);
+
+            return this.Redirect("/Feedbacks/GetUserFeedbacks");
         }
     }
 }

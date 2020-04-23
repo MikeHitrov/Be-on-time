@@ -11,5 +11,11 @@
         IEnumerable<Feedback> GetUserFeedbacks(string userId);
 
         IEnumerable<Feedback> GetAllFeedbacks();
+
+        Feedback GetFeedbackById(string id);
+
+        Task Update(int rating, string description, string id);
+
+        Task Delete(Feedback feedback);
     }
 }

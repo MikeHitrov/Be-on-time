@@ -1,0 +1,31 @@
+﻿@using BeOnTime.Web.ViewModels.Feedbacks
+@model FeedbackInputModel
+
+@{
+    this.ViewData["Title"] = "Edit Feedback";
+    var meetings = ViewBag.Meetings;
+    var data = ViewBag.Data;
+}
+
+<h1 class="display-3">Edit feedback</h1>
+
+    <form asp-controller="Feedbacks" asp-action="Edit" mtehod="post">
+        <div class="form-group">
+            <label for="Rating">Rating (Scale 1 to 6)</label>
+            <input type="range" value=@data.Rating class="form-control" min="1" max="6" id="rating" name="Rating" >
+        </div>
+        <div class="form-group">
+            <label for="description">Comment</label>
+            <input type="text" value=@data.Description class="form-control" id="description" name="Description" >
+        </div>
+        <div>
+            <label for="meeting">Choose the meeting, you want to give feedback for:</label>
+            <select id="meeting" name="MeetingTitle">
+                @foreach (var meeting in meetings)
+                {
+                    <option value="@meeting.Title">@meeting.Title</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </form>

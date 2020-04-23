@@ -5,6 +5,8 @@
 
     public class FeedbackInputModel : IMapTo<Feedback>
     {
+        public string Id { get; set; }
+
         public int Rating { get; set; }
 
         public string Description { get; set; }
