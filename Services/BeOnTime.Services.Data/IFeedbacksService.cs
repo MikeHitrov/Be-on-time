@@ -6,7 +6,7 @@
 
     public interface IFeedbacksService
     {
-        Task AddAsync(string userId, ApplicationUser user, int rating, string description);
+        Task AddAsync(string userId, ApplicationUser user, int rating, string description, string meetingId, Meeting meeting);
 
         IEnumerable<Feedback> GetUserFeedbacks(string userId);
 

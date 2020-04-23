@@ -16,7 +16,7 @@
             this.feedbackRepository = feedbackRepository;
         }
 
-        public async Task AddAsync(string userId, ApplicationUser user, int rating, string description)
+        public async Task AddAsync(string userId, ApplicationUser user, int rating, string description, string meetingId, Meeting meeting)
         {
             Feedback feedback = new Feedback
             {
@@ -24,6 +24,9 @@
                 User = user,
                 Rating = rating,
                 Description = description,
+                MeetingId = meetingId,
+                Meeting = meeting,
+                CreatedOn = DateTime.Now,
             };
 
             feedback.Id = Guid.NewGuid().ToString();

@@ -41,7 +41,7 @@
             var meeting = this.meetingsService.GetMeetingByTitle(meetingTitle);
             var user = this.usersService.GetUserByUsername(User.Identity.Name);
 
-            await this.feedbackService.AddAsync(user.Id, user, inputModel.Rating, inputModel.Description);
+            await this.feedbackService.AddAsync(user.Id, user, inputModel.Rating, inputModel.Description, meeting.Id, meeting);
 
             return this.Redirect("/");
         }
@@ -60,6 +60,31 @@
                     Id = feedback.Id,
                     Rating = feedback.Rating,
                     Description = feedback.Description,
+                    Username = this.usersService.GetUserById(feedback.UserId).UserName,
+                    MeetingTitle = this.meetingsService.GetMeetingById(feedback.MeetingId).Title,
+                    CreatedOn = feedback.CreatedOn,
+                });
+            }
+
+            return View(viewModel);
+        }
+
+        [Authorize]
+        public IActionResult GetAllFeedbacks()
+        {
+            var viewModel = new FeedbackUserViewModel();
+
+            var feedbacks = this.feedbackService.GetAllFeedbacks();
+
+            foreach (var feedback in feedbacks)
+            {
+                viewModel.Feedbacks.Add(new FeedbackViewModel
+                {
+                    Id = feedback.Id,
+                    Rating = feedback.Rating,
+                    Description = feedback.Description,
+                    Username = this.usersService.GetUserById(feedback.UserId).UserName,
+                    MeetingTitle = this.meetingsService.GetMeetingById(feedback.MeetingId).Title,
                     CreatedOn = feedback.CreatedOn,
                 });
             }
