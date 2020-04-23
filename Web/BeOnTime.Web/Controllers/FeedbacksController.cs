@@ -6,6 +6,7 @@
     using BeOnTime.Web.ViewModels.Feedbacks;
     using global::AspNetCoreTemplate.Web.Controllers;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class FeedbacksController : BaseController
     {
@@ -30,6 +31,19 @@
             ViewBag.Data = inputModel;
             ViewBag.Meetings = meetings;
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Add(FeedbackInputModel inputModel)
+        {
+            var meetingTitle = inputModel.MeetingTitle;
+            var meeting = this.meetingsService.GetMeetingByTitle(meetingTitle);
+            var user = this.usersService.GetUserByUsername(User.Identity.Name);
+
+            await this.feedbackService.AddAsync(user.Id, user, inputModel.Rating, inputModel.Description);
+
+            return this.Redirect("/");
         }
     }
 }

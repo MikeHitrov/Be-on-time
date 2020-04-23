@@ -133,5 +133,10 @@
 
             return meetings;
         }
+
+        public Meeting GetMeetingByTitle(string title)
+        {
+            return this.meetingRepository.All().Where(m => m.Title == title).First();
+        }
     }
 }

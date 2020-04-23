@@ -20,8 +20,8 @@
         <input type="text" class="form-control" id="description" name="Description" value=@data.Description>
     </div>
     <div>
-        <label for="users">Choose users, which will have to atend the meeting:</label>
-        <select id="users" name="Users">
+        <label for="meeting">Choose the meeting, you want to give feedback for:</label>
+        <select id="meeting" name="MeetingTitle">
             @foreach (var meeting in meetings)
             {
                 <option value="@meeting.Title">@meeting.Title</option>

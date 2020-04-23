@@ -5,12 +5,10 @@
 
     public class FeedbackInputModel : IMapTo<Feedback>
     {
-        public int UserId { get; set; }
-
-        public ApplicationUser User { get; set; }
-
         public int Rating { get; set; }
 
         public string Description { get; set; }
+
+        public string MeetingTitle { get; set; }
     }
 }

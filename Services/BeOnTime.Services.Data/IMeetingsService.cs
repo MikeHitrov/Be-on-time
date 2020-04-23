@@ -19,5 +19,7 @@
         void Delete(string id);
 
         List<Meeting> GetAllOverMeetingsForUser(string id);
+
+        Meeting GetMeetingByTitle(string title);
     }
 }

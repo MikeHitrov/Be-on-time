@@ -2,6 +2,7 @@
 {
     using AspNetCoreTemplate.Data.Common.Repositories;
     using AspNetCoreTemplate.Data.Models;
+    using System;
     using System.Threading.Tasks;
 
     public class FeedbacksService : IFeedbacksService
@@ -22,6 +23,8 @@
                 Rating = rating,
                 Description = description,
             };
+
+            feedback.Id = Guid.NewGuid().ToString();
 
             await this.feedbackRepository.AddAsync(feedback);
             await this.feedbackRepository.SaveChangesAsync();
