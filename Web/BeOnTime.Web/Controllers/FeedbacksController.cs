@@ -45,5 +45,26 @@
 
             return this.Redirect("/");
         }
+
+        [Authorize]
+        public IActionResult GetUserFeedbacks()
+        {
+            var userId = this.usersService.GetUserByUsername(User.Identity.Name).Id;
+            var viewModel = new FeedbackUserViewModel();
+
+            var feedbacks = this.feedbackService.GetUserFeedbacks(userId);
+
+            foreach (var feedback in feedbacks)
+            {
+                viewModel.Feedbacks.Add(new FeedbackViewModel { 
+                    Id = feedback.Id,
+                    Rating = feedback.Rating,
+                    Description = feedback.Description,
+                    CreatedOn = feedback.CreatedOn,
+                });
+            }
+
+            return View(viewModel);
+        }
     }
 }

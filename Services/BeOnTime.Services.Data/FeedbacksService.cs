@@ -3,6 +3,8 @@
     using AspNetCoreTemplate.Data.Common.Repositories;
     using AspNetCoreTemplate.Data.Models;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class FeedbacksService : IFeedbacksService
@@ -28,6 +30,16 @@
 
             await this.feedbackRepository.AddAsync(feedback);
             await this.feedbackRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<Feedback> GetAllFeedbacks()
+        {
+            return this.feedbackRepository.All().ToList();
+        }
+
+        public IEnumerable<Feedback> GetUserFeedbacks(string userId)
+        {
+            return this.feedbackRepository.All().Where(f => f.UserId == userId).ToList();
         }
     }
 }

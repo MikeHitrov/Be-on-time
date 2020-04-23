@@ -1,0 +1,29 @@
+﻿@using BeOnTime.Web.ViewModels.Feedbacks
+@model FeedbackUserViewModel
+
+@{
+    ViewData["Title"] = "My feedbacks";
+    var feedbacks = Model.Feedbacks;
+}
+
+@if (feedbacks.Count > 0)
+{
+<h1>My feedbacks:</h1>
+
+@foreach (var feedback in feedbacks.OrderByDescending(f => f.CreatedOn))
+{
+    <div class="card" style="width: 72rem;">
+        <div class="alert alert-info">
+            From -> @feedback.CreatedOn
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Rating -> @feedback.Rating</li>
+            <li class="list-group-item">Comment -> @feedback.Description</li>
+        </ul>
+    </div>
+    <p> </p>
+}
+}else
+{
+    <h1>You have given no feedbacks</h1>
+}
