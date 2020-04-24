@@ -8,7 +8,6 @@
     using AspNetCoreTemplate.Data.Models;
     using AspNetCoreTemplate.Data.Repositories;
     using AspNetCoreTemplate.Data.Seeding;
-    using AspNetCoreTemplate.Services.Data;
     using AspNetCoreTemplate.Services.Mapping;
     using AspNetCoreTemplate.Services.Messaging;
     using AspNetCoreTemplate.Web.ViewModels;
@@ -63,7 +62,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IMeetingsService, MeetingsService>();
             services.AddTransient<IFeedbacksService, FeedbacksService>();

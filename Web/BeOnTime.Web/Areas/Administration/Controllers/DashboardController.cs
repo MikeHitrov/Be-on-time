@@ -1,23 +1,21 @@
 ﻿namespace AspNetCoreTemplate.Web.Areas.Administration.Controllers
 {
-    using AspNetCoreTemplate.Services.Data;
     using AspNetCoreTemplate.Web.ViewModels.Administration.Dashboard;
-
+    using BeOnTime.Services.Data;
     using Microsoft.AspNetCore.Mvc;
 
     public class DashboardController : AdministrationController
     {
-        private readonly ISettingsService settingsService;
+        private readonly IFeedbacksService feedbacksService;
 
-        public DashboardController(ISettingsService settingsService)
+        public DashboardController(IFeedbacksService feedbacksService)
         {
-            this.settingsService = settingsService;
+            this.feedbacksService = feedbacksService;
         }
 
         public IActionResult Index()
         {
-            var viewModel = new IndexViewModel { SettingsCount = this.settingsService.GetCount(), };
-            return this.View(viewModel);
+            return this.View();
         }
     }
 }

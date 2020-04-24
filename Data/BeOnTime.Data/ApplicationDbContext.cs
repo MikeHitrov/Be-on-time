@@ -22,7 +22,6 @@
             : base(options)
         {
         }
-        public DbSet<Setting> Settings { get; set; }
 
         public DbSet<Meeting> Meetings { get; set; }
 
