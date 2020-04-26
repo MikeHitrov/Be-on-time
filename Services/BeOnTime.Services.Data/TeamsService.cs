@@ -36,7 +36,7 @@
 
             foreach (var us in users)
             {
-                await this.usersService.UpdateTeam(team.Id, team);
+                await this.usersService.UpdateTeam(team.Id, team, us.Id);
             }
 
             await this.teamRepository.AddAsync(team);

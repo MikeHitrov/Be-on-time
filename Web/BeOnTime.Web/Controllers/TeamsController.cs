@@ -6,6 +6,10 @@
     using System.Linq;
     using BeOnTime.Web.ViewModels.Teams;
     using AspNetCoreTemplate.Web.Controllers;
+    using System.Threading.Tasks;
+    using Microsoft.Extensions.Primitives;
+    using System.Collections.Generic;
+    using AspNetCoreTemplate.Data.Models;
 
     public class TeamsController : BaseController
     {
@@ -27,6 +31,23 @@
             ViewBag.Users = users;
             ViewBag.Data = inputModel;
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Add(TeamInputModel inputModel)
+        {
+            var user = usersService.GetUserByUsername(User.Identity.Name);
+            var usersList = new List<ApplicationUser>();
+
+            foreach (var us in inputModel.Users)
+            {
+                usersList.Add(this.usersService.GetUserByUsername(us));
+            }
+
+            await this.teamsService.AddAsync(user.Id, user, inputModel.TeamName, usersList);
+
+            return this.Redirect("/");
         }
     }
 }
