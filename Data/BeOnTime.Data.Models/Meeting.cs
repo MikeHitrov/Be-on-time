@@ -10,7 +10,6 @@
         public Meeting()
         {
             this.UserMeeting = new HashSet<UserMeeting>();
-            this.Feedbacks = new HashSet<Feedback>();
         }
 
         public string OrganiserId { get; set; }
@@ -33,7 +32,5 @@
 
         [Required]
         public string Title { get; set; }
-
-        public ICollection<Feedback> Feedbacks { get; set; }
     }
 }

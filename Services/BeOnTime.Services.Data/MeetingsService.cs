@@ -81,7 +81,6 @@
                     Title = meeting.Title,
                     Description = meeting.Description,
                     Place = meeting.Place,
-                    Feedbacks = meeting.Feedbacks,
                     CreatedOn = meeting.CreatedOn,
                 });
             }

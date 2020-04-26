@@ -91,14 +91,6 @@
                 .HasOne(um => um.Meeting)
                 .WithMany(m => m.UserMeeting)
                 .HasForeignKey(um => um.MeetingId);
-
-            builder.Entity<Meeting>()
-                .HasMany(m => m.Feedbacks);
-
-            builder.Entity<ApplicationUser>()
-                .HasOne(u => u.Team)
-                .WithMany(t => t.Users)
-                .HasForeignKey(u => u.TeamId);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

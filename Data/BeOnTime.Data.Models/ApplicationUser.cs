@@ -38,7 +38,5 @@ namespace AspNetCoreTemplate.Data.Models
         public virtual ICollection<UserMeeting> UserMeeting { get; set; }
 
         public string TeamId { get; set; }
-
-        public Team Team { get; set; }
     }
 }

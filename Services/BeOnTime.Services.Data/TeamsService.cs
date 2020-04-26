@@ -22,19 +22,21 @@
 
         public async Task AddAsync(string userId, ApplicationUser user, string name, IEnumerable<ApplicationUser> users)
         {
+            var userList = users.ToList();
+            userList.Add(user);
+
             Team team = new Team
             {
-                Id = Guid.NewGuid().ToString(),
                 ManagerId = userId,
                 Manager = user,
                 TeamName = name,
-                Users = users,
+                Users = userList,
                 CreatedOn = DateTime.Now,
             };
 
-            users.ToList().Add(team.Manager);
+            team.Id = Guid.NewGuid().ToString();
 
-            foreach (var us in users)
+            foreach (var us in userList)
             {
                 await this.usersService.UpdateTeam(team.Id, team, us.Id);
             }

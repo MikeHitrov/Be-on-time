@@ -25,7 +25,7 @@
         [Authorize]
         public IActionResult Add()
         {
-            var users = this.usersService.GetAllUsers().Where(u => u.UserName != User.Identity.Name).Where(u => u.TeamId == "");
+            var users = this.usersService.GetAllUsers().Where(u => u.UserName != User.Identity.Name).Where(u => u.TeamId == null);
             var inputModel = new TeamInputModel();
 
             ViewBag.Users = users;
@@ -48,6 +48,20 @@
             await this.teamsService.AddAsync(user.Id, user, inputModel.TeamName, usersList);
 
             return this.Redirect("/");
+        }
+
+        [Authorize]
+        public IActionResult GetUserTeam()
+        {
+            var user = this.usersService.GetUserByUsername(User.Identity.Name);
+            var team = this.teamsService.GetTeamByUser(user);
+
+            var viewModel = new UserTeamViewModel
+            {
+
+            };
+
+            return View(viewModel);
         }
     }
 }

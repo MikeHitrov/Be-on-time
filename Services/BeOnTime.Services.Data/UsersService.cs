@@ -37,7 +37,6 @@
             var user = this.GetUserById(userId);
 
             user.TeamId = teamId;
-            user.Team = team;
 
             await Task.Run(() => this.usersRepository.Update(user));
             await this.usersRepository.SaveChangesAsync();

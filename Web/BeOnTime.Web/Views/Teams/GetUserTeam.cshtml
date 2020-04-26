@@ -1,0 +1,30 @@
+﻿@using BeOnTime.Web.ViewModels.Teams
+@model UserTeamViewModel
+
+@{
+    ViewData["Title"] = "Your Team";
+}
+
+<h1 class="display-3">@this.ViewData["Title"]</h1>
+@if (Model.isTeam)
+{
+        <div class="card" style="width: 72rem;">
+            <div class="alert alert-info">
+                Team name -> @Model.TeamName
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Manager -> @Model.ManagerName</li>
+                <li class="list-group-item">Members count -> @Model.MembersCount</li>
+
+                @if (Model.ManagerName == User.Identity.Name)
+                {
+                    <li class="list-group-item"><button>@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</button><button>@Html.ActionLink("Delete", "Delete", new { id = Model.Id })</button></li>
+                }
+            </ul>
+        </div>
+        <p> </p>
+}
+else
+{
+    <h1>You don't have team</h1>
+}
