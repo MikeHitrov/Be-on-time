@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     using AspNetCoreTemplate.Data.Common.Models;
     using AspNetCoreTemplate.Data.Models;
-
+    using BeOnTime.Data.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +28,8 @@
         public DbSet<Feedback> Feedbacks { get; set; }
 
         public DbSet<UserMeeting> UserMeeting { get; set; }
+
+        public DbSet<Team> Teams { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -92,6 +94,11 @@
 
             builder.Entity<Meeting>()
                 .HasMany(m => m.Feedbacks);
+
+            builder.Entity<ApplicationUser>()
+                .HasOne(u => u.Team)
+                .WithMany(t => t.Users)
+                .HasForeignKey(u => u.TeamId);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

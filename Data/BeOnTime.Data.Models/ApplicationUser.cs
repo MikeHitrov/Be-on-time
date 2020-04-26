@@ -5,7 +5,7 @@ namespace AspNetCoreTemplate.Data.Models
     using System.Collections.Generic;
 
     using AspNetCoreTemplate.Data.Common.Models;
-
+    using BeOnTime.Data.Models;
     using Microsoft.AspNetCore.Identity;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
@@ -36,5 +36,9 @@ namespace AspNetCoreTemplate.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         public virtual ICollection<UserMeeting> UserMeeting { get; set; }
+
+        public string TeamId { get; set; }
+
+        public Team Team { get; set; }
     }
 }
