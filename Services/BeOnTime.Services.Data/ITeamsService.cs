@@ -16,5 +16,7 @@
         Team GetTeamById(string id);
 
         Task UpdateAsync(string id, string name, IEnumerable<string> users);
+
+        Task Delete(string id);
     }
 }

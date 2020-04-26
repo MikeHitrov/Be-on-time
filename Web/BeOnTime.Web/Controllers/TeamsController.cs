@@ -55,16 +55,21 @@
         {
             var user = this.usersService.GetUserByUsername(User.Identity.Name);
             var team = this.teamsService.GetTeamByUser(user);
+            var viewModel = new UserTeamViewModel();
 
-            var viewModel = new UserTeamViewModel
+            if (team != null)
             {
-                Id = team.Id,
-                isTeam = true,
-                ManagerName = this.usersService.GetUserById(team.ManagerId).UserName,
-                TeamName = team.TeamName,
-                MembersCount = team.Users.ToList().Count,
-            };
-
+                viewModel.Id = team.Id;
+                viewModel.isTeam = true;
+                viewModel.ManagerName = this.usersService.GetUserById(team.ManagerId).UserName;
+                viewModel.TeamName = team.TeamName;
+                viewModel.MembersCount = team.Users.ToList().Count + 1;
+            }
+            else
+            {
+                viewModel.isTeam = false;
+            }
+        
             return View(viewModel);
         }
 
@@ -72,7 +77,7 @@
         public IActionResult Edit(string id)
         {
             var team = this.teamsService.GetTeamById(id);
-            var usersList = this.usersService.GetAllUsers().Where(u => u.UserName != User.Identity.Name);
+            var usersList = this.usersService.GetAllUsers().Where(u => u.UserName != User.Identity.Name).Where(u => u.TeamId == null);
             List<string> users = new List<string>();
 
             foreach (var user in usersList)
