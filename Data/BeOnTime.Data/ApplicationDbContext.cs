@@ -31,6 +31,8 @@
 
         public DbSet<Team> Teams { get; set; }
 
+        public DbSet<TeamUser> TeamUsers { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

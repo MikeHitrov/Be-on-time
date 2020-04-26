@@ -8,7 +8,7 @@
     {
         public Team()
         {
-            this.Users = new List<ApplicationUser>();
+            this.Users = new HashSet<TeamUser>();
         }
 
         public string ManagerId { get; set; }
@@ -17,6 +17,6 @@
 
         public string TeamName { get; set; }
 
-        public IEnumerable<ApplicationUser> Users { get; set; }
+        public ICollection<TeamUser> Users { get; set; }
     }
 }

@@ -9,9 +9,9 @@
 
     public interface ITeamsService
     {
-        Task AddAsync(string userId, ApplicationUser user, string name, IEnumerable<ApplicationUser> users);
+        Task AddAsync(string userId, ApplicationUser user, string name, IEnumerable<string> users);
 
-        Team GetTeamByUser(ApplicationUser user);
+        Team GetTeamByUser(string user);
 
         Team GetTeamById(string id);
 

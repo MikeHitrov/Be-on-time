@@ -38,14 +38,8 @@
         public async Task<IActionResult> Add(TeamInputModel inputModel)
         {
             var user = usersService.GetUserByUsername(User.Identity.Name);
-            var usersList = new List<ApplicationUser>();
 
-            foreach (var us in inputModel.Users)
-            {
-                usersList.Add(this.usersService.GetUserByUsername(us));
-            }
-
-            await this.teamsService.AddAsync(user.Id, user, inputModel.TeamName, usersList);
+            await this.teamsService.AddAsync(user.Id, user, inputModel.TeamName, inputModel.Users);
 
             return this.Redirect("/");
         }
@@ -54,7 +48,7 @@
         public IActionResult GetUserTeam()
         {
             var user = this.usersService.GetUserByUsername(User.Identity.Name);
-            var team = this.teamsService.GetTeamByUser(user);
+            var team = this.teamsService.GetTeamByUser(user.UserName);
             var viewModel = new UserTeamViewModel();
 
             if (team != null)
@@ -104,6 +98,14 @@
             users.Add(User.Identity.Name);
 
             await this.teamsService.UpdateAsync(inputModel.Id, inputModel.TeamName, users);
+
+            return this.Redirect("/Teams/GetUserTeam");
+        }
+
+        [Authorize]
+        public IActionResult Delete(string id)
+        {
+            this.teamsService.Delete(id);
 
             return this.Redirect("/Teams/GetUserTeam");
         }
