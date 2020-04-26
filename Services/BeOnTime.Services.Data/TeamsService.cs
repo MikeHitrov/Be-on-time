@@ -12,33 +12,52 @@
     public class TeamsService : ITeamsService
     {
         private readonly IDeletableEntityRepository<Team> teamRepository;
+        private readonly IDeletableEntityRepository<TeamUser> teamUsersRepository;
         private readonly IUsersService usersService;
 
-        public TeamsService(IDeletableEntityRepository<Team> teamRepository, IUsersService usersService)
+        public TeamsService(IDeletableEntityRepository<Team> teamRepository, IUsersService usersService, IDeletableEntityRepository<TeamUser> teamUsersRepository)
         {
             this.teamRepository = teamRepository;
             this.usersService = usersService;
+            this.teamRepository = teamRepository;
         }
 
         public async Task AddAsync(string userId, ApplicationUser user, string name, IEnumerable<string> users)
         {
-            var userList = users.ToList();
-            userList.Add(this.usersService.GetUserById(userId).UserName);
+            var userList = new HashSet<TeamUser>();
 
             Team team = new Team
             {
                 ManagerId = userId,
                 Manager = user,
                 TeamName = name,
-                Users = userList,
                 CreatedOn = DateTime.Now,
             };
 
             team.Id = Guid.NewGuid().ToString();
 
+            foreach (var usrname in users)
+            {
+                userList.Add(new TeamUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Username = usrname,
+                    TeamId = team.Id,
+                });
+            }
+
+            userList.Add(new TeamUser
+            {
+                Id = Guid.NewGuid().ToString(),
+                Username = this.usersService.GetUserById(userId).UserName,
+                TeamId = team.Id,
+            });
+
+            team.Users = userList;
+
             foreach (var us in userList)
             {
-                await this.usersService.UpdateTeam(team.Id, team, this.usersService.GetUserByUsername(us).Id);
+                await this.usersService.UpdateTeam(team.Id, team, this.usersService.GetUserByUsername(us.Username).Id);
             }
 
             await this.teamRepository.AddAsync(team);
@@ -51,7 +70,10 @@
 
             foreach (var user in team.Users)
             {
-                await this.usersService.UpdateTeam(null, team, this.usersService.GetUserByUsername(user).Id);
+                await Task.Run(() => this.teamUsersRepository.Delete(user));
+                await this.teamUsersRepository.SaveChangesAsync();
+
+                await this.usersService.UpdateTeam(null, team, this.usersService.GetUserByUsername(user.Username).Id);
             }
 
             await this.usersService.UpdateTeam(null, team, team.ManagerId);
@@ -65,9 +87,20 @@
             return this.teamRepository.All().Where(t => t.Id == id).First();
         }
 
-        public Team GetTeamByUser(string user)
+        public Team GetTeamByUser(string username)
         {
-            return this.teamRepository.All().Where(u => u.Users.Contains(user)).First();
+            var teamUsers = this.teamRepository.All().ToList();
+
+            foreach (var team in teamUsers)
+            {
+                foreach (var user in team.Users)
+                {
+                    if (user.Username == username)
+                        return team;
+                }
+            }
+
+            return null;
         }
 
         public async Task UpdateAsync(string id, string name, IEnumerable<string> users)
@@ -85,7 +118,10 @@
                 if(user.TeamId == null)
                 {
                     await Task.Run(() => this.usersService.UpdateTeam(id, team, user.Id));
-                    userList.Add(user.UserName);
+                    userList.Add(new TeamUser {
+                        Username = user.UserName,
+                        TeamId = user.TeamId,
+                    });
                 }
             }
 

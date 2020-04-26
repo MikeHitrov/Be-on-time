@@ -1,10 +1,8 @@
 ﻿namespace BeOnTime.Data.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using AspNetCoreTemplate.Data.Common.Models;
 
-    public class TeamUser
+    public class TeamUser : BaseDeletableModel<string>
     {
         public string Username { get; set; }
 
