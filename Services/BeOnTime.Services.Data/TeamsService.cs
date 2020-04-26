@@ -73,8 +73,6 @@
             {
                 this.teamUsersRepository.Delete(user);
                 this.teamUsersRepository.SaveChangesAsync();
-
-                this.usersService.UpdateTeam("", team, this.usersService.GetUserByUsername(user.Username).Id);
             }
 
              Task.Run(() => this.teamRepository.Delete(team));
