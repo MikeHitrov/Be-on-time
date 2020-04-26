@@ -1,0 +1,28 @@
+﻿@using BeOnTime.Web.ViewModels.Teams
+@model TeamInputModel
+
+@{
+    this.ViewData["Title"] = "Add Team";
+    var users = ViewBag.Users;
+    var data = ViewBag.Data;
+}
+
+<h1 class="display-3">Add new team</h1>
+
+<form asp-controller="Teams" asp-action="Add" mtehod="post">
+    <div class="form-group">
+        <label for="teamName">Team name</label>
+        <input type="text" class="form-control" id="teamName" name="TeamName" value=@data.TeamName>
+    </div>
+    <div>
+        <label for="users">Choose users, which will be in your team:</label>
+        <select id="users" name="Users" multiple>
+            @foreach (var user in users)
+            {
+                <option value="@user.UserName">@user.UserName</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

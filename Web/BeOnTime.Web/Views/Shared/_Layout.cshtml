@@ -49,28 +49,38 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Meetings
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" asp-controller="Meetings" asp-action="Add">New Meeting</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="Meetings" asp-action="GetUserMeetings">My Meetings</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Feedbacks
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" asp-controller="Feedbacks" asp-action="Add">New Feedback</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="Feedbacks" asp-action="GetUserFeedbacks">My Feedbacks</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="Feedbacks" asp-action="GetAllFeedbacks">All Feedbacks</a>
-                        </div>
-                    </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Meetings
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-controller="Meetings" asp-action="Add">New Meeting</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-controller="Meetings" asp-action="GetUserMeetings">My Meetings</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Feedbacks
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-controller="Feedbacks" asp-action="Add">New Feedback</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-controller="Feedbacks" asp-action="GetUserFeedbacks">My Feedbacks</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-controller="Feedbacks" asp-action="GetAllFeedbacks">All Feedbacks</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Teams
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-controller="Teams" asp-action="Add">New Team</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-controller="Teams" asp-action="GetUserTeam">My Team</a>
+                                </div>
+                            </li>
                         }
                     </ul>
                 </div>

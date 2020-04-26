@@ -15,7 +15,7 @@
 
         public ApplicationUser Manager { get; set; }
 
-        public int TeamName { get; set; }
+        public string TeamName { get; set; }
 
         public IEnumerable<ApplicationUser> Users { get; set; }
     }
