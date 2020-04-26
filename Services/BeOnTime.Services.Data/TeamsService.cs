@@ -44,5 +44,41 @@
             await this.teamRepository.AddAsync(team);
             await this.teamRepository.SaveChangesAsync();
         }
+
+        public Team GetTeamById(string id)
+        {
+            return this.teamRepository.All().Where(t => t.Id == id).First();
+        }
+
+        public Team GetTeamByUser(ApplicationUser user)
+        {
+            return this.teamRepository.All().Where(u => u.Users.Contains(user)).First();
+        }
+
+        public async Task UpdateAsync(string id, string name, IEnumerable<string> users)
+        {
+            var team = this.GetTeamById(id);
+
+            team.TeamName = name;
+
+            var userList = new List<ApplicationUser>();
+
+            foreach (var username in users)
+            {
+                var user = this.usersService.GetUserByUsername(username);
+
+                if(user.TeamId == null)
+                {
+                    await Task.Run(() => this.usersService.UpdateTeam(id, team, user.Id));
+                }
+
+                userList.Add(user);
+            }
+
+            team.Users = userList;
+
+            await Task.Run(() => this.teamRepository.Update(team));
+            await this.teamRepository.SaveChangesAsync();
+        }
     }
 }

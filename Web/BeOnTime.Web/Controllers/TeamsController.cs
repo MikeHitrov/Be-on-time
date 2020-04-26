@@ -58,10 +58,49 @@
 
             var viewModel = new UserTeamViewModel
             {
-
+                Id = team.Id,
+                isTeam = true,
+                ManagerName = this.usersService.GetUserById(team.ManagerId).UserName,
+                TeamName = team.TeamName,
+                MembersCount = team.Users.ToList().Count,
             };
 
             return View(viewModel);
+        }
+
+        [Authorize]
+        public IActionResult Edit(string id)
+        {
+            var team = this.teamsService.GetTeamById(id);
+            var usersList = this.usersService.GetAllUsers().Where(u => u.UserName != User.Identity.Name);
+            List<string> users = new List<string>();
+
+            foreach (var user in usersList)
+            {
+                users.Add(user.UserName);
+            }
+
+            var inputModel = new TeamInputModel
+            {
+                Id = team.Id,
+                TeamName = team.TeamName,
+            };
+
+            ViewBag.Users = users;
+            ViewBag.Data = inputModel;
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(TeamInputModel inputModel)
+        {
+            var users = inputModel.Users.ToList();
+            users.Add(User.Identity.Name);
+
+            await this.teamsService.UpdateAsync(inputModel.Id, inputModel.TeamName, users);
+
+            return this.Redirect("/Teams/GetUserTeam");
         }
     }
 }
