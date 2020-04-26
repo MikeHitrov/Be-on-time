@@ -19,7 +19,7 @@
         {
             this.teamRepository = teamRepository;
             this.usersService = usersService;
-            this.teamRepository = teamRepository;
+            this.teamUsersRepository = teamUsersRepository;
         }
 
         public async Task AddAsync(string userId, ApplicationUser user, string name, IEnumerable<string> users)
@@ -67,19 +67,18 @@
         public async Task Delete(string id)
         {
             var team = this.GetTeamById(id);
+            var users = this.teamUsersRepository.All().Where(t => t.TeamId == id).ToList();
 
-            foreach (var user in team.Users)
+            foreach (var user in users)
             {
-                await Task.Run(() => this.teamUsersRepository.Delete(user));
-                await this.teamUsersRepository.SaveChangesAsync();
+                this.teamUsersRepository.Delete(user);
+                this.teamUsersRepository.SaveChangesAsync();
 
-                await this.usersService.UpdateTeam(null, team, this.usersService.GetUserByUsername(user.Username).Id);
+                this.usersService.UpdateTeam("", team, this.usersService.GetUserByUsername(user.Username).Id);
             }
 
-            await this.usersService.UpdateTeam(null, team, team.ManagerId);
-
-            await Task.Run(() => this.teamRepository.Delete(team));
-            await this.teamRepository.SaveChangesAsync();
+             Task.Run(() => this.teamRepository.Delete(team));
+             this.teamRepository.SaveChangesAsync();
         }
 
         public Team GetTeamById(string id)
@@ -89,15 +88,12 @@
 
         public Team GetTeamByUser(string username)
         {
-            var teamUsers = this.teamRepository.All().ToList();
+            var teamUsers = this.teamUsersRepository.All().ToList();
 
             foreach (var team in teamUsers)
             {
-                foreach (var user in team.Users)
-                {
-                    if (user.Username == username)
-                        return team;
-                }
+                if (team.Username == username)
+                    return this.GetTeamById(team.TeamId);
             }
 
             return null;
@@ -111,17 +107,27 @@
 
             var userList = team.Users.ToList();
 
-            foreach (var username in users)
+            if (users != null)
             {
-                var user = this.usersService.GetUserByUsername(username);
-
-                if(user.TeamId == null)
+                foreach (var username in users)
                 {
-                    await Task.Run(() => this.usersService.UpdateTeam(id, team, user.Id));
-                    userList.Add(new TeamUser {
-                        Username = user.UserName,
-                        TeamId = user.TeamId,
-                    });
+                    var user = this.usersService.GetUserByUsername(username);
+
+                    if (user.TeamId == null)
+                    {
+                        await Task.Run(() => this.usersService.UpdateTeam(id, team, user.Id));
+
+                        var teamUser = new TeamUser
+                        {
+                            Username = user.UserName,
+                            TeamId = user.TeamId,
+                        };
+
+                        userList.Add(teamUser);
+
+                        await this.teamUsersRepository.AddAsync(teamUser);
+                        await this.teamUsersRepository.SaveChangesAsync();
+                    }
                 }
             }
 

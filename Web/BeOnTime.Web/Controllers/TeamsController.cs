@@ -57,7 +57,7 @@
                 viewModel.isTeam = true;
                 viewModel.ManagerName = this.usersService.GetUserById(team.ManagerId).UserName;
                 viewModel.TeamName = team.TeamName;
-                viewModel.MembersCount = team.Users.ToList().Count + 1;
+                viewModel.MembersCount = team.Users.ToList().Count;
             }
             else
             {
@@ -94,10 +94,7 @@
         [HttpPost]
         public async Task<IActionResult> Edit(TeamInputModel inputModel)
         {
-            var users = inputModel.Users.ToList();
-            users.Add(User.Identity.Name);
-
-            await this.teamsService.UpdateAsync(inputModel.Id, inputModel.TeamName, users);
+            await this.teamsService.UpdateAsync(inputModel.Id, inputModel.TeamName, inputModel.Users);
 
             return this.Redirect("/Teams/GetUserTeam");
         }
