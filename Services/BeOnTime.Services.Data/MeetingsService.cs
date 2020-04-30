@@ -125,15 +125,19 @@
             var userMeetings = this.userMeetingRepository
                 .All()
                 .Where(um => um.UserId == id)
-                .Where(um => um.Meeting.MeetingEnding > um.Meeting.MeetingStartTime)
                 .Where(um => um.Meeting.IsDeleted == false)
                 .ToList();
 
             var meetings = new List<Meeting>();
 
-            foreach (var meeting in userMeetings)
+            foreach (var userMeeting in userMeetings)
             {
-                meetings.Add(this.GetMeetingById(meeting.MeetingId));
+                var meeting = this.GetMeetingById(userMeeting.MeetingId);
+
+                if (meeting.MeetingEnding < DateTime.Now)
+                {
+                    meetings.Add(meeting);
+                }
             }
 
             return meetings;
